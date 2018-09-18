@@ -1,0 +1,100 @@
+PARSER_BEGIN(Karloff)
+import java.io.*;
+public class Karloff {
+
+  public static void main(String args[]) throws ParseException,IOException {
+    
+    Karloff parser = new Karloff(new FileInputStream(args[0]));
+    parser.Karloff();
+  }
+
+}
+
+PARSER_END(Karloff)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN :
+{
+  <MAIN: "main">
+| <ACHAVES: "{">
+| <FCHAVES: "}">
+| <VOID: "void">
+| <NEWVAR: "newVar">
+}
+
+TOKEN :
+{
+ <OP: ("+" | "-" | "*" | "/" | "&&" | "||" | "<" | ">" | "==")>
+|< TIPO: ("int" | "bool")>
+|< PONTO_VIRGULA: (";")>
+|<IGUAL: ("=")>
+|< ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"])* ("_")*>
+
+}
+
+
+
+void Karloff () :
+{}
+{ 
+
+  Main() 
+//Func()?
+  <EOF> 
+}
+	
+
+void Main ():
+{}
+{
+ <VOID><MAIN> <ACHAVES> 
+ 
+ 	VarDecl()
+ // SeqComandos()
+
+ <FCHAVES>
+
+}
+void VarDecl() :
+{}
+{ 
+	AuxDecl()*
+}
+
+void AuxDecl() :
+{}
+{ 
+	<NEWVAR>
+	<TIPO>
+	<ID>
+	<PONTO_VIRGULA>
+}
+
+void SeqComandos() :
+{}
+{ 
+	Comando()*
+}
+
+void Comando() :
+{}
+{ 
+	ID <IGUAL> Exp() <PONTO_VIRGULA>
+| 	TOKEN_id <ACHAVES> ListaExp()? <FCHAVES> <PONTO_VIRGULA>
+| 	"if" "(" EXP ")" "then" "{" SEQCOMANDOS "}"  <PONTO_VIRGULA>
+| 	"while" "(" EXP ")"  "{" SEQCOMANDOS "}"  <PONTO_VIRGULA>
+| 	"repeat" "{" SEQCOMANDOS "}" "until" "(" EXP ")"  <PONTO_VIRGULA>
+| 	"return" EXP <PONTO_VIRGULA>
+| 	"System.output" "(" EXP ")"  <PONTO_VIRGULA>
+}
+
+
+
+
