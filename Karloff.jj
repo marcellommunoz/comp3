@@ -23,18 +23,33 @@ SKIP :
 TOKEN :
 {
   <MAIN: "main">
+| <FUNC: "func">
 | <ACHAVES: "{">
 | <FCHAVES: "}">
+| <APARENTESES: "(">
+| <FPARENTESES: ")">
 | <VOID: "void">
+| <IF: "if">
+| <THEN: "then">
+| <WHILE: "while">
+| <REPEAT: "repeat">
+| <RETURN: "return">
+| <UNTIL: "until">
+| <OUTPUT: "System.output">
 | <NEWVAR: "newVar">
 }
 
 TOKEN :
 {
- <OP: ("+" | "-" | "*" | "/" | "&&" | "||" | "<" | ">" | "==")>
+ <OP: ("+" | "-" | "*" | "/" | "&" | "|" | "<" | ">" | "==")>
 |< TIPO: ("int" | "bool")>
+|< TRUE: ("true")>
+|< FALSE: ("false")>
 |< PONTO_VIRGULA: (";")>
-|<IGUAL: ("=")>
+|< VIRGULA: (",")>
+|< IGUAL: ("=")>
+|< DIGITO: (["0"-"9"])>
+|< NUMLIT: ["0"-"9"] ( ["0"-"9"])* ("."(["0"-"9"])+)? ("e"(["0"-"9"])+)?>
 |< ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"])* ("_")*>
 
 }
@@ -46,7 +61,7 @@ void Karloff () :
 { 
 
   Main() 
-//Func()?
+  (Func())?
   <EOF> 
 }
 	
@@ -57,7 +72,7 @@ void Main ():
  <VOID><MAIN> <ACHAVES> 
  
  	VarDecl()
- // SeqComandos()
+	SeqComandos()
 
  <FCHAVES>
 
@@ -65,7 +80,7 @@ void Main ():
 void VarDecl() :
 {}
 { 
-	AuxDecl()*
+	(AuxDecl())*
 }
 
 void AuxDecl() :
@@ -80,21 +95,83 @@ void AuxDecl() :
 void SeqComandos() :
 {}
 { 
-	Comando()*
+	(Comando())*
 }
 
 void Comando() :
 {}
 { 
-	ID <IGUAL> Exp() <PONTO_VIRGULA>
-| 	TOKEN_id <ACHAVES> ListaExp()? <FCHAVES> <PONTO_VIRGULA>
-| 	"if" "(" EXP ")" "then" "{" SEQCOMANDOS "}"  <PONTO_VIRGULA>
-| 	"while" "(" EXP ")"  "{" SEQCOMANDOS "}"  <PONTO_VIRGULA>
-| 	"repeat" "{" SEQCOMANDOS "}" "until" "(" EXP ")"  <PONTO_VIRGULA>
-| 	"return" EXP <PONTO_VIRGULA>
-| 	"System.output" "(" EXP ")"  <PONTO_VIRGULA>
+	<ID> ComandoLookahead()
+| 	<IF> <APARENTESES> Exp() <FPARENTESES> <THEN> <ACHAVES> SeqComandos() <FCHAVES>  <PONTO_VIRGULA>
+| 	<WHILE> <APARENTESES> Exp() <FPARENTESES> <ACHAVES> SeqComandos() <FCHAVES> <PONTO_VIRGULA>
+| 	<REPEAT> <ACHAVES> SeqComandos() <FCHAVES> <UNTIL> <APARENTESES> Exp() <FPARENTESES> <PONTO_VIRGULA>
+| 	<RETURN> Exp() <PONTO_VIRGULA>
+| 	<OUTPUT> <APARENTESES> Exp() <FPARENTESES> <PONTO_VIRGULA>
 }
 
+void ComandoLookahead() :
+{}
+{
+	<IGUAL> Exp() <PONTO_VIRGULA>
+|	<ACHAVES> (ListaExp())? <FCHAVES> <PONTO_VIRGULA>
+}
 
+void Exp() :
+{}
+{ 
+	<APARENTESES> Exp() <OP> Exp() <FPARENTESES>
+| 	Fator()
+}
+
+void Fator() :
+{}
+{ 
+	<ID> FatorLookahead()
+|	<NUMLIT>
+|	<TRUE>
+|	<FALSE>
+}
+
+void FatorLookahead() :
+{}
+{
+	(<APARENTESES> (ListaExp())? <FPARENTESES>)?
+}
+
+void ListaExp() :
+{}
+{ 
+	Exp() AuxListaExp()
+}
+
+void AuxListaExp() :
+{}
+{
+	(<VIRGULA> Exp())*
+}
+
+void Func() :
+{}
+{ 
+	<FUNC> <TIPO> <ID> <APARENTESES> (ListaArg())? <FPARENTESES> <ACHAVES> VarDecl() <FCHAVES> AuxFunc()
+}
+
+void AuxFunc() :
+{}
+{
+	(<FUNC> <TIPO> <ID> <APARENTESES> (ListaArg())? <FPARENTESES> <ACHAVES> VarDecl() <FCHAVES>)*
+}
+
+void ListaArg() :
+{}
+{ 
+	<TIPO> <ID> AuxListaArg()
+}
+
+void AuxListaArg() :
+{}
+{
+	(<VIRGULA> <ID>)*
+}
 
 
