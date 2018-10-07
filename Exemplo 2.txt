@@ -1,0 +1,18 @@
+void main { 
+	newVar int arg1 ;
+	newVar int arg2 ;
+	newVar bool teste ;
+	div0 ( arg1, arg2 );
+}
+
+func bool div0 ( int arg1 , int arg2 ) {
+	newVar bool teste ;
+	if ( (arg2 == 0) ){
+		teste = true;
+		System.output (teste) ;
+		return teste ;
+	}
+	teste = false ; 
+	System.output (teste) ;
+	return teste ;
+}
