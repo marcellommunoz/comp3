@@ -1,8 +1,8 @@
 void main { 
 	newVar int arg1 ;
 	newVar int arg2 ;
-	newVar contador;
-	contador = contador = 1;
+	newVar int contador;
+	contador = 1;
 	while(arg2 > 0){
 		troca( arg1, arg2, contador );
 		contador = contador - 1;
