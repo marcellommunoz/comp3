@@ -4,10 +4,10 @@ void main {
 	newVar int acumulador ;
 	teste = true ;
 	repeat {
-	 	acumulador = acumulador + i ;
-		i = i+1;
+	 	acumulador = (acumulador + i) ;
+		i = (i+1);
 	} until ( ( i < 10 ) ) ;
-	if ( acumulador == 0 ) then {
-		teste = false
-	}
+	if ( (acumulador == 0) ) then {
+		teste = false;
+	};
 }

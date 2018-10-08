@@ -48,7 +48,6 @@ TOKEN :
 |< PONTO_VIRGULA: (";")>
 |< VIRGULA: (",")>
 |< IGUAL: ("=")>
-|< DIGITO: (["0"-"9"])>
 |< NUMLIT: ["0"-"9"] ( ["0"-"9"])* ("."(["0"-"9"])+)? ("e"(["0"-"9"])+)?>
 |< ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"])* ("_")*>
 
@@ -113,7 +112,7 @@ void ComandoLookahead() :
 {}
 {
 	<IGUAL> Exp() <PONTO_VIRGULA>
-|	<ACHAVES> (ListaExp())? <FCHAVES> <PONTO_VIRGULA>
+|	<APARENTESES> (ListaExp())? <FPARENTESES> <PONTO_VIRGULA>
 }
 
 void Exp() :
@@ -153,7 +152,7 @@ void AuxListaExp() :
 void Func() :
 {}
 { 
-	<FUNC> <TIPO> <ID> <APARENTESES> (ListaArg())? <FPARENTESES> <ACHAVES> VarDecl() <FCHAVES> AuxFunc()
+	<FUNC> <TIPO> <ID> <APARENTESES> (ListaArg())? <FPARENTESES> <ACHAVES> VarDecl() SeqComandos() <FCHAVES> AuxFunc()
 }
 
 void AuxFunc() :
@@ -171,7 +170,7 @@ void ListaArg() :
 void AuxListaArg() :
 {}
 {
-	(<VIRGULA> <ID>)*
+	(<VIRGULA> <TIPO> <ID>)*
 }
 
 

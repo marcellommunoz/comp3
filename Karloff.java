@@ -136,8 +136,8 @@ public class Karloff implements KarloffConstants {
       Exp();
       jj_consume_token(PONTO_VIRGULA);
       break;
-    case ACHAVES:
-      jj_consume_token(ACHAVES);
+    case APARENTESES:
+      jj_consume_token(APARENTESES);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case APARENTESES:
       case TRUE:
@@ -150,7 +150,7 @@ public class Karloff implements KarloffConstants {
         jj_la1[4] = jj_gen;
         ;
       }
-      jj_consume_token(FCHAVES);
+      jj_consume_token(FPARENTESES);
       jj_consume_token(PONTO_VIRGULA);
       break;
     default:
@@ -265,6 +265,7 @@ public class Karloff implements KarloffConstants {
     jj_consume_token(FPARENTESES);
     jj_consume_token(ACHAVES);
     VarDecl();
+    SeqComandos();
     jj_consume_token(FCHAVES);
     AuxFunc();
   }
@@ -317,6 +318,7 @@ public class Karloff implements KarloffConstants {
         break label_5;
       }
       jj_consume_token(VIRGULA);
+      jj_consume_token(TIPO);
       jj_consume_token(ID);
     }
   }
@@ -337,7 +339,7 @@ public class Karloff implements KarloffConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x40,0x80000,0x2005d000,0x2005d000,0x30c00200,0x4000080,0x30c00200,0x30c00000,0x30c00200,0x200,0x2000000,0x200000,0x40,0x200000,0x2000000,};
+      jj_la1_0 = new int[] {0x40,0x80000,0x1005d000,0x1005d000,0x18c00200,0x4000200,0x18c00200,0x18c00000,0x18c00200,0x200,0x2000000,0x200000,0x40,0x200000,0x2000000,};
    }
 
   /** Constructor with InputStream. */
@@ -475,7 +477,7 @@ public class Karloff implements KarloffConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[30];
+    boolean[] la1tokens = new boolean[29];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -489,7 +491,7 @@ public class Karloff implements KarloffConstants {
         }
       }
     }
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 29; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

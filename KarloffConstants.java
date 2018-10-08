@@ -53,11 +53,9 @@ public interface KarloffConstants {
   /** RegularExpression Id. */
   int IGUAL = 26;
   /** RegularExpression Id. */
-  int DIGITO = 27;
+  int NUMLIT = 27;
   /** RegularExpression Id. */
-  int NUMLIT = 28;
-  /** RegularExpression Id. */
-  int ID = 29;
+  int ID = 28;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -91,7 +89,6 @@ public interface KarloffConstants {
     "\";\"",
     "\",\"",
     "\"=\"",
-    "<DIGITO>",
     "<NUMLIT>",
     "<ID>",
   };
